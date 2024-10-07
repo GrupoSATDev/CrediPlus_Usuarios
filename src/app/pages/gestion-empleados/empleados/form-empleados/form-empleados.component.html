@@ -1,0 +1,308 @@
+
+<div class="w-full sm:bg-card sm:rounded-2xl sm:mx-0 mx-auto" >
+    <div class="">
+        <!-- Title -->
+        <div
+            class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
+        >
+            {{_matData.edit ? 'Actualizar empleado' : 'Agregar empleado'}}
+        </div>
+
+        <!-- Sign Up form -->
+        <form class="mt-8" [formGroup]="form">
+            <div
+                class="group relative mx-auto mt-8 flex h-40 w-40 flex-0 rounded-full mb-8"
+            >
+                <div
+                    class="absolute inset-0 hidden cursor-pointer flex-col items-center justify-center rounded-full bg-gray-800 bg-opacity-80 backdrop-blur backdrop-filter group-hover:flex"
+                >
+                    <mat-icon
+                        class="text-white"
+                        [svgIcon]="'heroicons_outline:camera'"
+                    ></mat-icon>
+                    <div class="mx-6 mt-2 text-center font-medium text-white">
+                        Cambiar foto
+                    </div>
+                    <input
+                        type="file"
+                        class="absolute inset-0 opacity-0 cursor-pointer"
+                        (change)="onFileSelected($event)"
+                    />
+                </div>
+                <!-- Mostrar la imagen o el texto inicial -->
+                <ng-container *ngIf="form.get('foto').value; else noAvatar">
+                    <img
+                        class="h-full w-full rounded-full object-cover"
+                        [src]="image"
+                        [alt]="'Profile avatar'"
+                    />
+                </ng-container>
+                <ng-template #noAvatar>
+                    <div
+                        class="flex h-full w-full items-center justify-center rounded-full bg-gray-200 text-8xl font-semibold uppercase text-gray-600 dark:bg-gray-700 dark:text-gray-200"
+                    >
+                        {{ form.get('primerNombre').value.charAt(0) ?? 'P' }}
+                    </div>
+                </ng-template>
+            </div>
+
+            <div>
+                <p class="font-bold mb-4 text-2xl">Información general</p>
+                <div class="flex mb-4">
+                    <div
+                        class="fcursor-pointer"
+                        (click)="twoStepToggle.toggle()"
+                    >
+                        <div class="font-medium leading-6">
+                            Estado {{form.get('estado').value ? 'Activo' : 'Inactivo'}}
+                        </div>
+                    </div>
+                    <mat-slide-toggle
+                        class="ml-4"
+                        [color]="'primary'"
+                        [formControlName]="'estado'"
+                        #twoStepToggle
+                    >
+                    </mat-slide-toggle>
+                </div>
+                <div class="flex gap-2.5">
+                    <!-- Name field -->
+                    <mat-form-field class="w-full">
+                        <mat-label>Primer nombre</mat-label>
+                        <input  matInput [formControlName]="'primerNombre'" placeholder="Primer nombre"/>
+                    </mat-form-field>
+
+                    <!-- Name field -->
+                    <mat-form-field class="w-full">
+                        <mat-label>Segundo nombre</mat-label>
+                        <input  matInput [formControlName]="'segundoNombre'" placeholder="Segundo nombre" />
+                    </mat-form-field>
+
+                </div>
+
+                <div class="flex gap-2.5">
+                    <mat-form-field  class="w-full">
+                        <mat-label>Primer apellido</mat-label>
+                        <input  matInput [formControlName]="'primerApellido'" placeholder="Primer apellido" />
+                    </mat-form-field>
+
+                    <mat-form-field  class="w-full">
+                        <mat-label>Segundo apellido</mat-label>
+                        <input  matInput [formControlName]="'segundoApellido'" placeholder="Segundo apellido" />
+                    </mat-form-field>
+                </div>
+
+                <div class="flex gap-2.5">
+                    <mat-form-field  class="w-full">
+                        <mat-label>Tipo de documento</mat-label>
+                        <mat-select
+                            [formControlName]="'idTipoDoc'"
+                            placeholder="Tipo de documento"
+                        >
+                            <ng-container *ngIf="tiposDocumentos$ | async as documentos">
+                                <mat-option [value]="item.id" *ngFor="let item of documentos.data">{{item.nombre}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field  class="w-full">
+                        <mat-label>Número de identificación</mat-label>
+                        <input  matInput [formControlName]="'numDoc'" placeholder="Número de identificación" />
+                    </mat-form-field>
+
+                </div>
+
+                <div class="flex gap-2.5">
+
+                    <mat-form-field  class="w-full">
+                        <mat-label>Género</mat-label>
+                        <mat-select
+                            [formControlName]="'idGenero'"
+                            placeholder="Género"
+                        >
+                            <ng-container *ngIf="generos$ | async as generos">
+                                <mat-option [value]="item.id" *ngFor="let item of generos.data">{{item.nombre}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field  class="w-full">
+                        <mat-label>Fecha de nacimiento</mat-label>
+                        <input matInput [matDatepicker]="picker"  [formControlName]="'fechaNacimiento'">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+            </div>
+
+            <div>
+                <p class="font-bold mb-4 text-2xl">Información demográfica</p>
+
+                <div class="flex gap-2.5">
+                    <mat-form-field  class="w-full">
+                        <mat-label>Departamento</mat-label>
+                        <mat-select
+                            #data
+                            (selectionChange)="onSelected($event)"
+                            [formControlName]="'idDepartamento'"
+                            placeholder="Departamento"
+                        >
+                            <ng-container *ngIf="departamentos$ | async as departamentos">
+                                <mat-option [value]="departamento.id" *ngFor="let departamento of departamentos.data">{{departamento.nombre}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field  class="w-full">
+                        <mat-label>Ciudad</mat-label>
+                        <mat-select [formControlName]="'idMunicipio'" placeholder="Ciudad">
+                            <ng-container *ngIf="municipios$ | async as municipios">
+                                <mat-option [value]="municipio.id" *ngFor="let municipio of municipios.data">{{municipio.nombre}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="flex gap-2.5">
+
+                    <mat-form-field  class="w-full">
+                        <mat-label>Dirección</mat-label>
+                        <input  matInput [formControlName]="'direccion'" placeholder="Dirección" />
+                    </mat-form-field>
+
+                    <mat-form-field  class="w-full">
+                        <mat-label>Celular</mat-label>
+                        <input  matInput [formControlName]="'telefono'" placeholder="Celular"/>
+                    </mat-form-field>
+                </div>
+
+                <div class="flex gap-2.5">
+
+                    <mat-form-field  class="w-full">
+                        <mat-label>Teléfono</mat-label>
+                        <input  matInput [formControlName]="'telefono2'" placeholder="Teléfono" />
+                    </mat-form-field>
+
+                    <mat-form-field  class="w-full">
+                        <mat-label>Email</mat-label>
+                        <input  matInput [formControlName]="'correo'" placeholder="Correo electronico" />
+                    </mat-form-field>
+
+                </div>
+
+                <div class="flex gap-2.5">
+                    <mat-form-field  class="w-full">
+                        <mat-label>Empresa</mat-label>
+                        <mat-select [formControlName]="'idSubEmpresa'" placeholder="Empresa">
+                            <ng-container *ngIf="empresasClientes$ | async as empresasClientes">
+                                <mat-option [value]="item.id" *ngFor="let item of empresasClientes.data">{{item.razonSocial}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field  class="w-full">
+                        <mat-label>Cargo</mat-label>
+                        <input  matInput [formControlName]="'cargo'" placeholder="Cargo" />
+                    </mat-form-field>
+                </div>
+
+                <div class="flex gap-2.5">
+                    <mat-form-field  class="w-full">
+                        <mat-label>Inicio de contrato</mat-label>
+                        <input matInput [matDatepicker]="inicio" [formControlName]="'fechaInicioContrato'">
+                        <mat-datepicker-toggle matIconSuffix [for]="inicio"></mat-datepicker-toggle>
+                        <mat-datepicker #inicio></mat-datepicker>
+                    </mat-form-field>
+                    <ng-container *ngIf="form.get('estado').value == false">
+                        <mat-form-field  class="w-full">
+                            <mat-label>Fin de contrato</mat-label>
+                            <input matInput [matDatepicker]="fin"  [formControlName]="'fechaFinContrato'">
+                            <mat-datepicker-toggle matIconSuffix [for]="fin"></mat-datepicker-toggle>
+                            <mat-datepicker #fin></mat-datepicker>
+                        </mat-form-field>
+                    </ng-container>
+
+                </div>
+
+                <div class="flex gap-2.5">
+                    <mat-form-field  class="w-full" >
+                        <mat-label>Salario devengado</mat-label>
+                        <input  matInput mask="separator.0" thousandSeparator="." [formControlName]="'salarioDevengado'" placeholder="Salario devengdado" />
+                    </mat-form-field>
+
+
+                    <mat-form-field  class="w-full" >
+                        <mat-label>Número de cuenta bancaria</mat-label>
+                        <input  matInput  [formControlName]="'numCuentaBancaria'" placeholder="Número de cuenta"/>
+                    </mat-form-field>
+                </div>
+
+                <div class="flex gap-2.5">
+                    <mat-form-field  class="w-full">
+                        <mat-label>Tipo de cuenta</mat-label>
+                        <mat-select [formControlName]="'idTipoCuenta'" placeholder="Tipo de cuenta">
+                            <ng-container *ngIf="tipoCuentas$ | async as tipoCuentas">
+                                <mat-option [value]="item.id" *ngFor="let item of tipoCuentas.data">{{item.nombre}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field  class="w-full">
+                        <mat-label>Bancos</mat-label>
+                        <mat-select [formControlName]="'idBanco'" placeholder="Bancos">
+                            <ng-container *ngIf="bancos$ | async as bancos">
+                                <mat-option [value]="item.id" *ngFor="let item of bancos.data">{{item.nombre}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="flex gap-2.5">
+                    <mat-form-field  class="w-full">
+                        <mat-label>Nivel de riesgo</mat-label>
+                        <mat-select [formControlName]="'idNivelRiesgo'" placeholder="Nivel de riesgo">
+                            <ng-container *ngIf="riesgos$ | async as riesgos">
+                                <mat-option [value]="item.id" *ngFor="let item of riesgos.data">{{item.nombre}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field  class="w-full">
+                        <mat-label>Capacidad de endeudamiento</mat-label>
+                        <input  matInput mask="separator.0" thousandSeparator="." [formControlName]="'capacidadEndeudamiento'" placeholder="Capacidad de endeudamiento"/>
+                    </mat-form-field>
+
+                </div>
+
+            </div>
+
+            <div class="flex flex-wrap justify-end gap-2.5">
+                <button
+                    class="fuse-mat-button-large mt-6 bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="closeDialog()"
+                >
+
+                    <span> Cancelar </span>
+                </button>
+
+                <button
+                    class="fuse-mat-button-large mt-6 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="onSave()"
+                >
+
+                    <span> Guardar </span>
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+

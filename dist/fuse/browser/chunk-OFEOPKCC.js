@@ -1,0 +1,1 @@
+import{$ as i,f as e}from"./chunk-32HXX3OB.js";var s=(()=>{let t=class t{constructor(){this.stateGrid=new e,this.stateGridSolicitudes=new e}};t.\u0275fac=function(o){return new(o||t)},t.\u0275prov=i({token:t,factory:t.\u0275fac,providedIn:"root"});let r=t;return r})();export{s as a};
