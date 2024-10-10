@@ -168,12 +168,12 @@ export class AuthService {
      * @param user
      */
     signUp(user: {
-        name: string;
-        email: string;
-        password: string;
-        company: string;
+        idTipoDoc: string;
+        numDoc: string;
+        correo: string;
+        contrasena: string;
     }): Observable<any> {
-        return this._httpClient.post('api/auth/sign-up', user);
+        return this._httpClient.post(this._appSettings.authTrabajador.url.base, user);
     }
 
     /**

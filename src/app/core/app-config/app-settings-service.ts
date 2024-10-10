@@ -163,5 +163,13 @@ export class AppSettingsService {
         }
     }
 
+    /*Trabajadores*/
+    public authTrabajador = {
+        url: {
+            base: EndPoints.uriBase('Usuarios/RegistroTrabajador')
+        }
+    }
+
+
 
 }

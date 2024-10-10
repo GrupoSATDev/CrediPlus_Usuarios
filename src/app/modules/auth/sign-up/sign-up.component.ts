@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import {
     FormsModule,
     NgForm,
@@ -17,6 +17,13 @@ import { Router, RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { TiposDocumentosService } from '../../../core/services/tipos-documentos.service';
+import { tap } from 'rxjs';
+import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
+import { SwalService } from '../../../core/services/swal.service';
+import { FuseConfirmationService } from '../../../../@fuse/services/confirmation';
+import { guardar } from '../../../core/constant/dialogs';
 
 @Component({
     selector: 'auth-sign-up',
@@ -35,10 +42,28 @@ import { AuthService } from 'app/core/auth/auth.service';
         MatIconModule,
         MatCheckboxModule,
         MatProgressSpinnerModule,
+        MatSelect,
+        MatOption,
+        AsyncPipe,
+        NgForOf,
+        NgIf,
     ],
 })
 export class AuthSignUpComponent implements OnInit {
     @ViewChild('signUpNgForm') signUpNgForm: NgForm;
+    private tiposDocumentosService = inject(TiposDocumentosService);
+    private swalService = inject(SwalService);
+    public fuseService = inject(FuseConfirmationService);
+
+
+    public tiposDocumentos$ = this.tiposDocumentosService.getTiposDocumentos().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            if (valorSelected) {
+                this.signUpForm.get('idTipoDoc').setValue(valorSelected[3].id)
+            }
+        })
+    )
 
     alert: { type: FuseAlertType; message: string } = {
         type: 'success',
@@ -66,11 +91,10 @@ export class AuthSignUpComponent implements OnInit {
     ngOnInit(): void {
         // Create the form
         this.signUpForm = this._formBuilder.group({
-            name: ['', Validators.required],
-            email: ['', [Validators.required, Validators.email]],
-            password: ['', Validators.required],
-            company: [''],
-            agreements: ['', Validators.requiredTrue],
+            idTipoDoc: [''],
+            numDoc: ['', Validators.required],
+            correo: ['', [Validators.required, Validators.email]],
+            contrasena: ['', Validators.required],
         });
     }
 
@@ -93,28 +117,49 @@ export class AuthSignUpComponent implements OnInit {
         // Hide the alert
         this.showAlert = false;
 
-        // Sign up
-        this._authService.signUp(this.signUpForm.value).subscribe(
-            (response) => {
-                // Navigate to the confirmation required page
-                this._router.navigateByUrl('/confirmation-required');
-            },
-            (response) => {
-                // Re-enable the form
-                this.signUpForm.enable();
+        const dialog = this.fuseService.open({
+            ...guardar
+        });
 
-                // Reset the form
-                this.signUpNgForm.resetForm();
+        dialog.afterClosed().subscribe((response) => {
 
-                // Set the alert
-                this.alert = {
-                    type: 'error',
-                    message: 'Something went wrong, please try again.',
-                };
+            if (response === 'confirmed') {
+                this._authService.signUp(this.signUpForm.value).subscribe(
+                    (response) => {
+                        // Navigate to the confirmation required page
+                        this.swalService.ToastAler({
+                            icon: 'success',
+                            title: 'Registro creado con exito!',
+                            timer: 4000,
+                        })
+                        setTimeout(() => {
+                            this._router.navigateByUrl('/sign-in');
+                        }, 2000)
 
-                // Show the alert
-                this.showAlert = true;
+                    },
+                    (response) => {
+                        // Re-enable the form
+                        this.signUpForm.enable();
+
+                        // Reset the form
+                        this.signUpNgForm.resetForm();
+
+                        // Set the alert
+                        this.alert = {
+                            type: 'error',
+                            message: '¡Error al registrar!.',
+                        };
+
+                        // Show the alert
+                        this.showAlert = true;
+                    }
+                );
+
             }
-        );
+        })
+        // Sign up
+
     }
+
+
 }
