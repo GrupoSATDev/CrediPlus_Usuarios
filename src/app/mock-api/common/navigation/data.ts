@@ -28,7 +28,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
             {
                 id: 'apps.gestion.detalle.dembolso',
-                title: 'Desembolso',
+                title: 'Desembolsos',
                 type: 'basic',
                 link: '/pages/gestion-creditos/desembolsos',
             },
@@ -38,19 +38,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/gestion-creditos/consumos',
             },
-            {
-                id: 'apps.gestion.tasas',
-                title: 'Tasas de interes',
-                type: 'basic',
-                link: '/pages/gestion-creditos/tasas',
-            },
-            {
-                id: 'apps.gestion.tipos.pagos',
-                title: 'Tipos de pagos',
-                type: 'basic',
-                link: '/pages/gestion-creditos/tipos-pagos',
-            },
-
         ],
     },
     {
@@ -61,7 +48,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         children: [
             {
                 id: 'apps.gestion.cobros',
-                title: 'Cobro empleados',
+                title: 'Cobro trabajadores',
                 type: 'basic',
                 link: '/pages/gestion-cobros/cobros',
             },
@@ -69,15 +56,15 @@ export const defaultNavigation: FuseNavigationItem[] = [
     },
     {
         id: 'apps.gestion-empleados',
-        title: 'Gestión de empleados',
+        title: 'Gestión de trabajadores',
         type: 'collapsable',
         icon: 'heroicons_outline:user-group',
         children: [
             {
                 id: 'apps.gestion.empleados',
-                title: 'Empleados',
+                title: 'Trabajadores',
                 type: 'basic',
-                link: '/pages/gestion-empleados/empleados',
+                link: '/pages/gestion-trabajadores/trabajadores',
             },
         ],
     },
@@ -123,6 +110,19 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/configuracion/generos',
             },
+            {
+                id: 'apps.gestion.tipos.pagos',
+                title: 'Tipos de pagos',
+                type: 'basic',
+                link: '/pages/configuracion/tipos-pagos',
+            },
+            {
+                id: 'apps.gestion.tasas',
+                title: 'Tasas de interes',
+                type: 'basic',
+                link: '/pages/configuracion/tasas',
+            },
+
         ],
     },
     {
