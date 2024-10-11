@@ -98,7 +98,7 @@ export class AuthSignInComponent implements OnInit {
 
         const data = {
             ...form,
-            idTipoUsuario: 'e626ea69-e995-4462-be9a-905326714782'
+            idTipoUsuario: 'e626ea69-e995-4462-be9a-905326714781'
         }
 
         // Sign in
