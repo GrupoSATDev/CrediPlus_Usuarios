@@ -25,6 +25,9 @@ import { FuseCardComponent } from '../../../../../@fuse/components/card';
 import { CodigosDetalleConsumo } from '../../../../core/enums/detalle-consumo';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmDesembolsoComponent } from '../dialog-confirm-desembolso/dialog-confirm-desembolso.component';
+import { DetalleConsumoService } from '../../../../core/services/detalle-consumo.service';
+import { guardar } from '../../../../core/constant/dialogs';
+import { SwalService } from '../../../../core/services/swal.service';
 
 @Component({
   selector: 'app-form-view-detalle',
@@ -67,6 +70,7 @@ export class FormViewDetalleComponent implements OnInit, OnDestroy{
     public estadosDatosService = inject(EstadosDatosService);
     private activatedRoute = inject(ActivatedRoute);
     private creditoService: CreditosService = inject(CreditosService);
+    public detalleConsumoService = inject(DetalleConsumoService);
     private router = inject(Router);
     public subcription$: Subscription;
     public items: any;
@@ -78,6 +82,7 @@ export class FormViewDetalleComponent implements OnInit, OnDestroy{
     tasas = [];
     idCredito: string = '';
     public _matDialog = inject(MatDialog);
+    private swalService = inject(SwalService);
 
     ngOnDestroy(): void {
         this.subcription$.unsubscribe();
@@ -93,8 +98,78 @@ export class FormViewDetalleComponent implements OnInit, OnDestroy{
         })
     }
 
+    onSave(id) {
+        const data = {
+            idEstado: CodigosDetalleConsumo.APROBADA,
+            id: id
+        }
+
+        const dialog = this.fuseService.open({
+            ...guardar
+        });
+
+        dialog.afterClosed().subscribe((response) => {
+            if (response === 'confirmed') {
+                this.subcription$ = this.detalleConsumoService.patchConsumo(data).subscribe((response) => {
+                    if (response.isExitoso) {
+                        this.swalService.ToastAler({
+                            icon: 'success',
+                            title: 'Registro creado con exito!',
+                            timer: 4000,
+                        })
+                        this.router.navigate(['/pages/gestion-creditos/creditos']);
+                    }
+
+                }, error => {
+                    this.swalService.ToastAler({
+                        icon: 'error',
+                        title: 'Ha ocurrido un error al crear el registro!',
+                        timer: 4000,
+                    })
+                })
+            }
+        })
+
+
+    }
+
+    onReject(id) {
+        const data = {
+            idEstado: CodigosDetalleConsumo.RECHAZADA,
+            id
+        }
+
+        const dialog = this.fuseService.open({
+            ...guardar
+        });
+
+        dialog.afterClosed().subscribe((response) => {
+            if (response === 'confirmed') {
+                this.subcription$ = this.detalleConsumoService.patchConsumo(data).subscribe((response) => {
+                    if (response.isExitoso) {
+                        this.toasService.toasAlertWarn({
+                            message: 'Registro creado con exito!',
+                            actionMessage: 'Cerrar',
+                            duration: 3000
+                        })
+                        this.router.navigate(['/pages/gestion-creditos/creditos']);
+                    }
+                }, error => {
+                    this.toasService.toasAlertWarn({
+                        message: 'Ha ocurrido un error!!!!',
+                        actionMessage: 'Cerrar',
+                        duration: 3000
+                    })
+                })
+            }
+        })
+
+    }
+
+
+
     ngOnInit(): void {
-        this.idCredito = this.activatedRoute.snapshot.paramMap.get('id');
+        this.idCredito = 'Trabajador'
         this.getCredito(this.idCredito);
     }
 

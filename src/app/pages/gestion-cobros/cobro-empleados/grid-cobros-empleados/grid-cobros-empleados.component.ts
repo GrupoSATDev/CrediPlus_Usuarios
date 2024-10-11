@@ -16,6 +16,7 @@ import { MatOption } from '@angular/material/core';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { EstadoCreditosService } from '../../../../core/services/estado-creditos.service';
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FuseCardComponent } from '../../../../../@fuse/components/card';
 
 @Component({
   selector: 'app-grid-cobros-empleados',
@@ -33,6 +34,7 @@ import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
         NgIf,
         AsyncPipe,
         ReactiveFormsModule,
+        FuseCardComponent,
     ],
     providers: [
         DatePipe,
@@ -53,28 +55,8 @@ export class GridCobrosEmpleadosComponent implements OnInit, OnDestroy{
 
     public subcription$: Subscription;
     public selectedData: any;
-    public searchTerm: string = '';
-    public estadoCreditos$ = this.estadoCreditosService.getEstadoCobros().pipe(
-        tap((response) => {
-            const selectedValue = response.data;
-            if (selectedValue) {
-                this.estados.setValue(selectedValue[1].id);
-                this.cobros(selectedValue[1].id);
-            }
-        })
-    )
-
 
     data = [];
-
-    columns = ['Nombre completo', 'Deuda total', 'Empresa', 'Estado'];
-
-    columnPropertyMap = {
-        'Nombre completo': 'nombreTrabajador',
-        'Deuda total': 'deudaTotal',
-        'Empresa': 'nombreSubEmpresa',
-        'Estado': 'nombreEstadoCredito',
-    };
 
     buttons: IButton[] = [
         {
@@ -94,13 +76,9 @@ export class GridCobrosEmpleadosComponent implements OnInit, OnDestroy{
     ) {
     }
 
-    onSelect(estado: MatSelectChange) {
-        const id = estado.value;
-        this.cobros(id);
-    }
 
-    private cobros(id) {
-        this.subcription$ = this.cobroTrabadorService.getCobrosGrid(id).pipe(
+    private cobros() {
+        this.subcription$ = this.cobroTrabadorService.getCobroTrabajador().pipe(
             map((response) => {
                 response.data.forEach((items) => {
                     if (items.estado) {
@@ -114,8 +92,9 @@ export class GridCobrosEmpleadosComponent implements OnInit, OnDestroy{
             }),
             map((response) => {
                 response.data.forEach((items) => {
-                    //items.fechaCobro = this.datePipe.transform(items.fechaCobro, 'dd/MM/yyyy');
+                    items.fechaCobro = this.datePipe.transform(items.fechaCobro, 'dd/MM/yyyy');
                     items.deudaTotal = this.currencyPipe.transform(items.deudaTotal, 'USD', 'symbol', '1.2-2');
+                    items.montoCuota = this.currencyPipe.transform(items.montoCuota, 'USD', 'symbol', '1.2-2');
                     //items.nombreTrabajador = this.datePipe.transform(items.nombreTrabajador, 'titlecase');
                 })
                 return response;
@@ -179,6 +158,7 @@ export class GridCobrosEmpleadosComponent implements OnInit, OnDestroy{
 
     ngOnInit(): void {
         this.listenGrid();
+        this.cobros();
     }
 
 

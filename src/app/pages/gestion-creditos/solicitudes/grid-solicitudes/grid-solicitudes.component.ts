@@ -4,7 +4,7 @@ import { MatAnchor, MatButton, MatIconButton } from '@angular/material/button';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import { map, Subscription } from 'rxjs';
+import { map, Subscription, tap } from 'rxjs';
 import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 import { MatDialog } from '@angular/material/dialog';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
@@ -23,6 +23,8 @@ import { MatDivider } from '@angular/material/divider';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatProgressBar } from '@angular/material/progress-bar';
+import { CodigosDetalleConsumo } from '../../../../core/enums/detalle-consumo';
+import { TipoSolicitudesService } from '../../../../core/services/tipo-solicitudes.service';
 
 @Component({
   selector: 'app-grid-solicitudes',
@@ -65,7 +67,8 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
     private datePipe = inject(DatePipe);
     private currencyPipe = inject(CurrencyPipe);
     private router = inject(Router);
-    private selectedTab: any = EstadosSolicitudes.APROBADA;
+    private tipoSolicitudService = inject(TipoSolicitudesService)
+    tipoSolicitud$ = this.tipoSolicitudService.getTipos()
 
     data = [];
 
@@ -159,5 +162,5 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
     }
 
 
-
+    protected readonly CodigosDetalleConsumo = CodigosDetalleConsumo;
 }

@@ -25,5 +25,9 @@ export class CobroTrabajadoresService {
       return this._http.get(`${this.appSettings.cobroTrabajadores.url.baseTabla}/${idEstado}`)
   }
 
+  getCobroTrabajador(): Observable<any> {
+      return this._http.get(this.appSettings.cobroTrabajadores.url.baseCard)
+  }
+
 
 }

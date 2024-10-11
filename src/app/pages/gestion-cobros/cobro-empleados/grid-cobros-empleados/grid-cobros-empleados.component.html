@@ -5,39 +5,7 @@
         class="relative flex flex-0 flex-col border-b px-6 py-8 sm:flex-row sm:items-center sm:justify-between md:px-8"
     >
         <!-- Title -->
-        <div class="text-3xl font-semibold tracking-tight">Cobro Trabajadores</div>
-
-        <!-- Actions -->
-        <div class="mt-6 flex shrink-0 items-center sm:ml-4 sm:mt-0 w-1/2 gap-2.5">
-            <!-- Search -->
-            <mat-form-field
-                class="fuse-mat-dense rounded-lg w-1/2"
-                [subscriptSizing]="'dynamic'"
-            >
-                <mat-icon
-                    class="icon-size-5"
-                    matPrefix
-                    [svgIcon]="'heroicons_solid:magnifying-glass'"
-                ></mat-icon>
-                <input
-                    matInput
-                    [autocomplete]="'off'"
-                    [placeholder]="'Buscar'"
-                />
-            </mat-form-field>
-            <!-- Add product button -->
-            <mat-form-field  class="w-1/2">
-                <mat-label>Estados</mat-label>
-                <mat-select
-                    [formControl]="estados"
-                    (selectionChange)="onSelect($event)"
-                >
-                    <ng-container *ngIf="estadoCreditos$ | async as estadoCreditos">
-                        <mat-option [value]="item.id" *ngFor="let item of estadoCreditos.data">{{item.nombre}}</mat-option>
-                    </ng-container>
-                </mat-select>
-            </mat-form-field>
-        </div>
+        <div class="text-3xl font-semibold tracking-tight">Cobro</div>
 
     </div>
 
@@ -45,16 +13,45 @@
     <div class="flex flex-auto overflow-hidden">
         <!-- Products list -->
         <div
-            class="flex flex-auto flex-col overflow-hidden sm:mb-18 sm:overflow-y-auto"
+            class="flex flex-auto flex-row flex-wrap gap-2.5 justify-center overflow-hidden sm:overflow-y-auto bg-gray-100 sm:p-2"
         >
-            <app-custom-table
-                [columns]="columns"
-                [displayedColumns]="columns"
-                [columnPropertyMap]="columnPropertyMap"
-                [data]="data"
-                [buttons]="buttons"
-                [searchTerm]="searchTerm"
-            ></app-custom-table>
+            <ng-container *ngFor="let item of data">
+                <fuse-card class="filter-list flex w-full max-w-80 flex-col p-8 pt-6 mt-2 shadow-lg rounded-lg" style="height: 50%">
+                    <div class="flex justify-center pb-4 mb-4">
+                        <!--<div class="-mr-3">
+                            <button mat-icon-button [matMenuTriggerFor]="listCard07Menu">
+                                <mat-icon class="icon-size-5 text-gray-600" [svgIcon]="'heroicons_solid:ellipsis-vertical'"></mat-icon>
+                            </button>
+                            <mat-menu #listCard07Menu="matMenu">
+                                <button mat-menu-item>View weekly</button>
+                                <button mat-menu-item>View monthly</button>
+                            </mat-menu>
+                        </div>-->
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium text-gray-600">Fecha:</span>
+                            <span class="text-md text-secondary">{{ item.fechaCobro }}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium text-gray-600">Valor:</span>
+                            <span class="text-md text-secondary">{{ item.montoCuota }}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium text-gray-600">Cuota:</span>
+                            <span class="text-md text-secondary">{{ item.numCuota }}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium text-gray-600">Estado:</span>
+                            <span class="text-md text-secondary">{{ item.nombreEstadoCredito }}</span>
+                        </div>
+                    </div>
+                </fuse-card>
+
+            </ng-container>
+
+
         </div>
 
     </div>

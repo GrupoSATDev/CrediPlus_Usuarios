@@ -6,7 +6,7 @@ import { FormViewDetalleComponent } from './form-view-detalle/form-view-detalle.
 export default [
     {
         path: '',
-        component: GridCreditosComponent
+        component: FormViewDetalleComponent
     },
     {
         path: 'detalle/:id',

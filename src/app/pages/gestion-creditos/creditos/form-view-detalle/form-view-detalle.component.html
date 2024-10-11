@@ -2,11 +2,6 @@
     <div class="inline-block p-6 sm:p-10 print:p-0 w-full">
         <div class="bg-card shadow print:bg-transparent print:p-0 print:shadow-none rounded-2xl mx-auto overflow-hidden" [style.width]="'90%'">
             <div class="bg-crediblue-50 px-6 py-4 flex items-center justify-between">
-                <div>
-                    <a mat-button [routerLink]="['/pages/gestion-creditos/creditos']" class="flex items-center">
-                        <mat-icon [svgIcon]="'heroicons_outline:arrow-long-left'" class="text-white"></mat-icon>
-                    </a>
-                </div>
                 <h2 class="text-xl font-bold text-white">Detalle de Crédito</h2>
             </div>
 
@@ -98,6 +93,16 @@
                                            }">
                                     </p>
                                 </div>
+                                <ng-container *ngIf="item.idEstadoCredito == CodigosDetalleConsumo.EN_REVISION">
+                                    <div class="flex justify-between items-center mt-2 p-4 gap-2.5">
+                                        <button (click)="onReject(item.id)" mat-flat-button class="fuse-mat-button-large bg-crediorange-100 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
+                                            Rechazar
+                                        </button>
+                                        <button (click)="onSave(item.id)" mat-flat-button class="fuse-mat-button-large bg-crediblue-50 hover:bg-crediblue-100 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
+                                            Aprobar
+                                        </button>
+                                    </div>
+                                </ng-container>
                             </fuse-card>
                         </ng-container>
                     </div>

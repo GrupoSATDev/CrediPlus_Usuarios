@@ -5,45 +5,24 @@ export const defaultNavigation: FuseNavigationItem[] = [
     {
         id: 'apps.gestion-creditos',
         title: 'Solicitudes',
-        type: 'collapsable',
+        type: 'basic',
         icon: 'attach_money',
-        children: [
-            {
-                id: 'apps.gestion.solicitudes',
-                title: 'Crédito',
-                type: 'basic',
-                link: '/pages/gestion-creditos/solicitudes',
-            },
-        ],
+        link: '/pages/gestion-creditos/solicitudes',
     },
     {
         id: 'apps.gestion-creditos',
-        title: 'Créditos',
-        type: 'collapsable',
+        title: 'Mi crédito',
+        type: 'basic',
         icon: 'request_quote',
-        children: [
-            {
-                id: 'apps.gestion.creditos',
-                title: 'Mi crédito',
-                type: 'basic',
-                link: '/pages/gestion-creditos/creditos',
-            },
-        ],
+        link: '/pages/gestion-creditos/creditos',
     },
-   /* {
-        id: 'apps.gestion-empleados',
-        title: 'Gestión de trabajadores',
-        type: 'collapsable',
-        icon: 'heroicons_outline:user-group',
-        children: [
-            {
-                id: 'apps.gestion.empleados',
-                title: 'Trabajadores',
-                type: 'basic',
-                link: '/pages/gestion-trabajadores/trabajadores',
-            },
-        ],
-    },*/
+    {
+        id: 'apps.gestion-cobros',
+        title: 'Pagos pendientes',
+        type : 'basic',
+        icon: 'request_quote',
+        link: '/pages/gestion-cobros/cobros',
+    },
    /*{
         id: 'apps.configuraciones',
         title: 'Configuraciones',
