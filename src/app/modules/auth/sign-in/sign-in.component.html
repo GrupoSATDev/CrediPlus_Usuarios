@@ -16,7 +16,7 @@
             >
                Inicio de sesión
             </div>
-           <!-- <div class="mt-0.5 flex items-baseline font-medium">
+            <!--<div class="mt-0.5 flex items-baseline font-medium">
                 <div>Crear un usuario si no cuentas con el</div>
                 <a
                     class="ml-1 text-primary-500 hover:underline"
@@ -52,9 +52,9 @@
             <!-- Sign in form -->
             <form class="mt-8" [formGroup]="signInForm" #signInNgForm="ngForm">
                 <!-- Email field -->
-                <mat-form-field class="w-full">
+                <mat-form-field class="w-full" floatLabel="always">
                     <mat-label>Usuario</mat-label>
-                    <input id="correo" matInput [formControlName]="'correo'" />
+                    <input id="correo" matInput [formControlName]="'correo'" placeholder="Usuario" />
                     @if (signInForm.get('correo').hasError('required')) {
                         <mat-error> El correo es requirido </mat-error>
                     }
@@ -66,7 +66,7 @@
                 </mat-form-field>
 
                 <!-- Password field -->
-                <mat-form-field class="w-full">
+                <mat-form-field class="w-full" floatLabel="always">
                     <mat-label>Contraseña</mat-label>
 
                     <input
@@ -74,6 +74,7 @@
                         matInput
                         type="password"
                         [formControlName]="'contrasena'"
+                        placeholder="Contraseña"
                         #passwordField
                     />
                     <button
@@ -120,6 +121,8 @@
                     </a>
                 </div>-->
 
+
+
                 <!-- Submit button -->
                 <button
                     class="fuse-mat-button-large mt-6 w-full bg-crediblue-50 text-white font-semibold rounded-lg"
@@ -137,6 +140,15 @@
                         ></mat-progress-spinner>
                     }
                 </button>
+
+                <div class="mt-2 flex flex-col font-medium">
+                    <div>Si no tienes una cuentas por favor</div>
+                    <a
+                        class="text-primary-500 hover:underline"
+                        [routerLink]="['/sign-up']"
+                    >Registrate aquí
+                    </a>
+                </div>
 
                 <!-- Separator -->
                 <!--<div class="mt-8 flex items-center">
@@ -196,7 +208,7 @@
         <!-- Content -->
         <div class="relative z-10 w-full max-w-2xl">
             <div class="text-7xl font-bold leading-none text-gray-100">
-                <div>Bienvenido a CrediPlus</div>
+                <div>CrediPlus - Trabajador</div>
             </div>
             <div class="mt-6 text-lg leading-6 tracking-tight text-gray-400">
                 Plataforma para gestionar préstamos a colaboradores de manera eficiente y segura. Inicia Sesión y accede las opciones que tenemos para ti.

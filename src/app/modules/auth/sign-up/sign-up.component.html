@@ -14,16 +14,16 @@
             <div
                 class="mt-8 text-4xl font-extrabold leading-tight tracking-tight"
             >
-                Reistro de usuario
+                Registro de usuario
             </div>
-            <div class="mt-0.5 flex items-baseline font-medium">
+            <!--<div class="mt-0.5 flex items-baseline font-medium">
                 <div>Tienes cuenta de usuario?</div>
                 <a
                     class="ml-1 text-primary-500 hover:underline"
                     [routerLink]="['/sign-in']"
                     >Iniciar sesión
                 </a>
-            </div>
+            </div>-->
 
             <!-- Alert -->
             @if (showAlert) {
@@ -55,7 +55,7 @@
 
                 <mat-form-field class="w-full" floatLabel="always">
                     <mat-label>Número de documento</mat-label>
-                    <input id="numDoc" matInput [formControlName]="'numDoc'" />
+                    <input id="numDoc" matInput [formControlName]="'numDoc'" placeholder="Número de documento" />
                     @if (signUpForm.get('numDoc').hasError('required')) {
                         <mat-error>Número de documento es requerido! </mat-error>
                     }
@@ -64,7 +64,7 @@
                 <!-- Email field -->
                 <mat-form-field class="w-full" floatLabel="always">
                     <mat-label>Correo electronico</mat-label>
-                    <input id="email" matInput [formControlName]="'correo'" />
+                    <input id="email" matInput [formControlName]="'correo'" placeholder="Correo electronico" />
                     @if (signUpForm.get('correo').hasError('required')) {
                         <mat-error> Correo es requerido! </mat-error>
                     }
@@ -84,6 +84,7 @@
                         type="password"
                         [formControlName]="'contrasena'"
                         #passwordField
+                        placeholder="Contraseña"
                     />
                     <button
                         mat-icon-button
@@ -129,6 +130,14 @@
                         ></mat-progress-spinner>
                     }
                 </button>
+                <div class="mt-2 flex flex-col font-medium">
+                    <div>Tienes cuenta de usuario?</div>
+                    <a
+                        class="text-primary-500 hover:underline"
+                        [routerLink]="['/sign-in']"
+                    >Iniciar sesión
+                    </a>
+                </div>
             </form>
         </div>
     </div>
@@ -159,7 +168,7 @@
         <!-- Content -->
         <div class="relative z-10 w-full max-w-2xl">
             <div class="text-7xl font-bold leading-none text-gray-100">
-                <div>Bienvenido a CrediPlus</div>
+                <div>CrediPlus - Trabajador</div>
             </div>
             <div class="mt-6 text-lg leading-6 tracking-tight text-gray-400">
                 Plataforma para gestionar préstamos a colaboradores de manera eficiente y segura. Registrate y accede las opciones que tenemos para ti.
