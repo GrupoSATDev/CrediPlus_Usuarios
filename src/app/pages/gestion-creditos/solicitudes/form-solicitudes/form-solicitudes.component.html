@@ -33,34 +33,34 @@
         <!-- Segundo paso: Formulario de captura -->
         <mat-step [stepControl]="firstFormGroup" label="Verifica tu información" [editable]="!matDisabled">
             <div class="flex flex-col items-center justify-center w-full h-full px-4">
-                <form [formGroup]="firstFormGroup">
-                    <mat-form-field class="w-full">
-                        <mat-label>Nombre de completo</mat-label>
-                        <input  matInput [formControlName]="'nombreCompleto'" [readonly]="true"/>
-                    </mat-form-field>
-                    <mat-form-field class="w-full">
-                        <mat-label>Identificación</mat-label>
-                        <input  matInput [formControlName]="'numDoc'" [readonly]="true"/>
-                    </mat-form-field>
-                    <mat-form-field class="w-full">
-                        <mat-label>Dirección</mat-label>
-                        <input  matInput [formControlName]="'direccion'" [readonly]="true"/>
-                    </mat-form-field>
-                    <mat-form-field class="w-full">
-                        <mat-label>Email</mat-label>
-                        <input  matInput [formControlName]="'correo'" [readonly]="true"/>
-                    </mat-form-field>
-                     <mat-form-field class="w-full">
-                        <mat-label>Ciudad</mat-label>
-                        <input  matInput [formControlName]="'idMunicipio'" [readonly]="true"/>
-                    </mat-form-field>
+                    <form [formGroup]="firstFormGroup">
+                        <mat-form-field class="w-full">
+                            <mat-label>Nombre de completo</mat-label>
+                            <input  matInput [formControlName]="'nombreCompleto'" [readonly]="true" />
+                        </mat-form-field>
+                        <mat-form-field class="w-full">
+                            <mat-label>Identificación</mat-label>
+                            <input  matInput [formControlName]="'numDoc'" [readonly]="true"/>
+                        </mat-form-field>
+                        <mat-form-field class="w-full">
+                            <mat-label>Dirección</mat-label>
+                            <input  matInput [formControlName]="'direccion'" [readonly]="true"/>
+                        </mat-form-field>
+                        <mat-form-field class="w-full">
+                            <mat-label>Email</mat-label>
+                            <input  matInput [formControlName]="'correo'" [readonly]="true"/>
+                        </mat-form-field>
+                         <mat-form-field class="w-full">
+                            <mat-label>Ciudad</mat-label>
+                            <input  matInput [formControlName]="'idMunicipio'" [readonly]="true"/>
+                        </mat-form-field>
 
-                    <div class="flex flex-wrap justify-center gap-2.5">
-                        <button mat-raised-button matStepperPrevious  class="bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold">Anterior</button>
-                        <button mat-raised-button matStepperNext [disabled]="firstFormGroup.invalid" class="bg-crediblue-50 text-white px-6 py-2 rounded-md">Siguiente</button>
-                    </div>
+                        <div class="flex flex-wrap justify-center gap-2.5">
+                            <button mat-raised-button matStepperPrevious  class="bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold">Anterior</button>
+                            <button mat-raised-button matStepperNext [disabled]="firstFormGroup.invalid" class="bg-crediblue-50 text-white px-6 py-2 rounded-md">Siguiente</button>
+                        </div>
 
-                </form>
+                    </form>
             </div>
         </mat-step>
 

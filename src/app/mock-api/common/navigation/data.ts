@@ -4,33 +4,33 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 export const defaultNavigation: FuseNavigationItem[] = [
     {
         id: 'apps.gestion-creditos',
-        title: 'Gestión de créditos',
+        title: 'Solicitudes',
         type: 'collapsable',
         icon: 'attach_money',
         children: [
             {
                 id: 'apps.gestion.solicitudes',
-                title: 'Solicitudes',
+                title: 'Crédito',
                 type: 'basic',
                 link: '/pages/gestion-creditos/solicitudes',
             },
         ],
     },
     {
-        id: 'apps.gestion-cobros',
-        title: 'Gestión de cobros',
+        id: 'apps.gestion-creditos',
+        title: 'Créditos',
         type: 'collapsable',
         icon: 'request_quote',
         children: [
             {
-                id: 'apps.gestion.cobros',
-                title: 'Cobro trabajadores',
+                id: 'apps.gestion.creditos',
+                title: 'Mi crédito',
                 type: 'basic',
-                link: '/pages/gestion-cobros/cobros',
+                link: '/pages/gestion-creditos/creditos',
             },
         ],
     },
-    {
+   /* {
         id: 'apps.gestion-empleados',
         title: 'Gestión de trabajadores',
         type: 'collapsable',
@@ -43,8 +43,8 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link: '/pages/gestion-trabajadores/trabajadores',
             },
         ],
-    },
-   {
+    },*/
+   /*{
         id: 'apps.configuraciones',
         title: 'Configuraciones',
         type: 'collapsable',
@@ -57,7 +57,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link: '/pages/configuracion/empresas-maestras',
             },
         ],
-    },
+    },*/
 
 
 

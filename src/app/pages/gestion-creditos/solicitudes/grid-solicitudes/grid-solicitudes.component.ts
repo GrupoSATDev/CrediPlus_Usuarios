@@ -1,6 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CustomTableComponent } from '../../../shared/custom-table/custom-table.component';
-import { MatButton } from '@angular/material/button';
+import { MatAnchor, MatButton, MatIconButton } from '@angular/material/button';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
@@ -13,10 +13,16 @@ import { SolicitudesService } from '../../../../core/services/solicitudes.servic
 import { FormSolicitudesComponent } from '../form-solicitudes/form-solicitudes.component';
 import { Estados } from '../../../../core/enums/estados';
 import { FormApproveComponent } from '../form-approve/form-approve.component';
-import { CurrencyPipe, DatePipe, NgIf } from '@angular/common';
+import { CurrencyPipe, DatePipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { MatTab, MatTabChangeEvent, MatTabContent, MatTabGroup } from '@angular/material/tabs';
 import { EstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { FuseCardComponent } from '../../../../../@fuse/components/card';
+import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
+import { MatDivider } from '@angular/material/divider';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatProgressBar } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-grid-solicitudes',
@@ -31,6 +37,19 @@ import { Router } from '@angular/router';
         MatTabGroup,
         MatTabContent,
         NgIf,
+        FuseCardComponent,
+        MatMenuTrigger,
+        MatMenu,
+        MatMenuItem,
+        MatDivider,
+        NgClass,
+        MatTooltip,
+        MatAnchor,
+        RouterLink,
+        MatCheckbox,
+        MatProgressBar,
+        NgForOf,
+        MatIconButton,
     ],
     providers: [
         DatePipe,
@@ -47,18 +66,10 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
     private currencyPipe = inject(CurrencyPipe);
     private router = inject(Router);
     private selectedTab: any = EstadosSolicitudes.APROBADA;
-    public tabIndex ;
 
     data = [];
 
-    columns = ['Fecha de solicitud','Trabajador','Cupo solicitado', 'Empresa', 'Estado'];
-    columnPropertyMap = {
-        'Fecha de solicitud': 'fechaCreacion',
-        'Trabajador': 'nombreTrabajador',
-        'Cupo solicitado': 'cupo',
-        'Empresa': 'nombreSubEmpresa',
-        'Estado': 'nombreEstadoSolicitud',
-    };
+
 
     buttons: IButton[] = [
         {
@@ -92,7 +103,9 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
         })
     }
 
-    getSolicitudes(param): void {
+    getSolicitudes(): void {
+
+        const param = 'Trabajador'
 
         this.subcription$ = this.solicitudService.getSolicitudes(param).pipe(
             map((response) => {
@@ -108,7 +121,7 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
             }),
             map((response) => {
                 response.data.forEach((items) => {
-                    items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
+                    items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'short');
                     items.cupo = this.currencyPipe.transform(items.cupo, 'USD', 'symbol', '1.2-2');
                 })
                 return response;
@@ -130,38 +143,18 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
         refreshData$.subscribe((states) => {
             if (states.state) {
                 console.log('Si entro')
-                console.log(states)
-                this.selectedTab = states.tab == 0 ? EstadosSolicitudes.APROBADA :
-                                    states.tab == 1 ? EstadosSolicitudes.RECHAZADA :
-                                    states.tab == 2 ? EstadosSolicitudes.PENDIENTE :
-                                    states.tab == 3 ? EstadosSolicitudes.PENDIENTE_DESEMBOLSO :
-                                    EstadosSolicitudes.APROBADA;
-                this.tabIndex = states.tab;
-                console.log(this.tabIndex)
-                this.getSolicitudes(this.selectedTab);
             }
         })
 
     }
 
-    tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
-        console.log('tabChangeEvent => ', tabChangeEvent);
-        console.log('index => ', tabChangeEvent.index);
-        this.tabIndex = tabChangeEvent.index;
-        console.log(this.tabIndex)
-        this.selectedTab = tabChangeEvent.index == 0 ? EstadosSolicitudes.APROBADA :
-                           tabChangeEvent.index == 1 ? EstadosSolicitudes.RECHAZADA :
-                           tabChangeEvent.index == 2 ? EstadosSolicitudes.PENDIENTE :
-                           tabChangeEvent.index == 3 ? EstadosSolicitudes.PENDIENTE_DESEMBOLSO :  EstadosSolicitudes.APROBADA;
-        this.getSolicitudes(this.selectedTab)
-    }
 
     ngOnDestroy(): void {
         this.subcription$.unsubscribe();
     }
 
     ngOnInit(): void {
-        this.getSolicitudes(this.selectedTab);
+        this.getSolicitudes();
         this.listenGrid();
     }
 

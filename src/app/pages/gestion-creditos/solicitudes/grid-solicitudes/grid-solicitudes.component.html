@@ -9,22 +9,6 @@
 
         <!-- Actions -->
         <div class="mt-6 flex shrink-0 items-center sm:ml-4 sm:mt-0">
-            <!-- Search -->
-            <mat-form-field
-                class="fuse-mat-dense rounded-lg min-w-64"
-                [subscriptSizing]="'dynamic'"
-            >
-                <mat-icon
-                    class="icon-size-5"
-                    matPrefix
-                    [svgIcon]="'heroicons_solid:magnifying-glass'"
-                ></mat-icon>
-                <input
-                    matInput
-                    [autocomplete]="'off'"
-                    [placeholder]="'Buscar'"
-                />
-            </mat-form-field>
             <!-- Add product button -->
             <button
                 class="ml-4 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
@@ -42,71 +26,54 @@
     <div class="flex flex-auto overflow-hidden">
         <!-- Products list -->
         <div
-            class="flex flex-auto flex-col overflow-hidden sm:overflow-y-auto bg-gray-100"
+            class="flex flex-auto flex-row gap-2.5 overflow-hidden sm:overflow-y-auto bg-gray-100 sm:p-2"
         >
-            <!-- Tabs -->
-            <mat-tab-group
-                class="sm:px-2"
-                mat-stretch-tabs="false"
-                [animationDuration]="'500'"
-                [(selectedIndex)]="tabIndex"
-                #tabGroup (selectedTabChange)="tabChanged($event)"
-            >
-                <mat-tab label="Aprobadas" >
-                    <ng-template matTabContent>
-                        <ng-container *ngIf="data.length">
-                            <app-custom-table
-                                [columns]="columns"
-                                [displayedColumns]="columns"
-                                [columnPropertyMap]="columnPropertyMap"
-                                [data]="data"
-                                [buttons]="buttons"
-                            ></app-custom-table>
-                        </ng-container>
-                    </ng-template>
-                </mat-tab>
-                <mat-tab label="Rechazadas">
-                    <ng-template matTabContent>
-                        <ng-container *ngIf="data.length">
-                            <app-custom-table
-                                [columns]="columns"
-                                [displayedColumns]="columns"
-                                [columnPropertyMap]="columnPropertyMap"
-                                [data]="data"
-                                [buttons]="buttons"
-                            ></app-custom-table>
-                        </ng-container>
-                    </ng-template>
-                </mat-tab>
-                <mat-tab label="Pendientes">
-                    <ng-template matTabContent>
-                        <ng-container *ngIf="data.length">
-                            <app-custom-table
-                                [columns]="columns"
-                                [displayedColumns]="columns"
-                                [columnPropertyMap]="columnPropertyMap"
-                                [data]="data"
-                                [buttons]="buttons"
-                            ></app-custom-table>
-                        </ng-container>
-                    </ng-template>
-                </mat-tab>
-                <mat-tab label="Pendiente desembolso">
-                    <ng-template matTabContent>
-                        <ng-container *ngIf="data.length">
-                            <app-custom-table
-                                [columns]="columns"
-                                [displayedColumns]="columns"
-                                [columnPropertyMap]="columnPropertyMap"
-                                [data]="data"
-                                [buttons]="buttons"
-                            ></app-custom-table>
-                        </ng-container>
-                    </ng-template>
-                </mat-tab>
+            <ng-container *ngFor="let item of data">
+                <fuse-card class="filter-list flex w-full max-w-80 flex-col p-8 pt-6 mt-2 shadow-lg rounded-lg" style="height: 60%">
+                    <div class="flex justify-center border-b pb-4 mb-4">
+                        <div class="text-2xl font-semibold leading-tight text-gray-800 text-center">
+                           Solicitud {{ item.nombreTipoSolicitud }}
+                        </div>
+                        <!--<div class="-mr-3">
+                            <button mat-icon-button [matMenuTriggerFor]="listCard07Menu">
+                                <mat-icon class="icon-size-5 text-gray-600" [svgIcon]="'heroicons_solid:ellipsis-vertical'"></mat-icon>
+                            </button>
+                            <mat-menu #listCard07Menu="matMenu">
+                                <button mat-menu-item>View weekly</button>
+                                <button mat-menu-item>View monthly</button>
+                            </mat-menu>
+                        </div>-->
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium text-gray-600">Fecha:</span>
+                            <span class="text-md text-secondary">{{ item.fechaCreacion }}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium text-gray-600">Número de solicitud:</span>
+                            <span class="text-md text-secondary">{{ item.numSolicitud }}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium text-gray-600">Valor solicitado:</span>
+                            <span class="text-md text-secondary">{{ item.cupo }}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium text-gray-600">Estado:</span>
+                            <span class="text-md text-secondary">{{ item.nombreEstadoSolicitud }}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium text-gray-600">Observaciones:</span>
+                            <span class="text-md text-secondary" >{{ item.observacion }}</span>
+                        </div>
+                    </div>
+                </fuse-card>
+
+            </ng-container>
 
 
-            </mat-tab-group>
+
+
 
         </div>
 

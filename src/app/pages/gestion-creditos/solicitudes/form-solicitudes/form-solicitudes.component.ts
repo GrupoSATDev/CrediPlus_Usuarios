@@ -86,29 +86,26 @@ export class FormSolicitudesComponent implements OnInit{
     secondFormGroup!: FormGroup;
 
     private solicitudService: SolicitudesService = inject(SolicitudesService)
+    empleado$ = this.empleadoService.getValidaInfo()
+
 
     ngOnInit(): void {
         this.createForm();
 
-        const id = 'c6d6b3a7-799f-42eb-8868-e069df989b11'
-        this.subcripstion$ = this.empleadoService.getEmpleado(id).pipe(
-            map((response) => {
-                response.data.nombreCompleto = response.data.primerNombre + " " + response.data.segundoNombre + " " + response.data.primerApellido + " " + response.data.segundoApellido
-                return response
-            })
-        ).subscribe((response) => {
-            const data = response.data;
-            const campos = {
-                nombreCompleto: response.data.nombreCompleto,
-                numDoc: response.data.numDoc,
-                direccion: response.data.direccion,
-                idMunicipio: response.data.nombreMunicipio,
-                correo: response.data.correo
+        this.empleado$.subscribe((response) => {
+            if (response) {
+                const data = response.data;
+
+                this.firstFormGroup.patchValue({
+                    nombreCompleto: data.primerNombre +' '+ ' ' + data.segundoNombre + ' ' + data.primerApellido + ' ' + data.segundoApellido,
+                    numDoc: data.numDoc,
+                    direccion: data.direccion,
+                    correo: data.correo,
+                    idMunicipio: data.nombreMunicipio
+                })
             }
-            this.firstFormGroup.patchValue(campos);
         })
 
-        this.listenForm();
 
     }
 
@@ -153,6 +150,7 @@ export class FormSolicitudesComponent implements OnInit{
                                 title: error.error.errorMenssages[0],
                                 timer: 6000,
                             })
+                            this.closeDialog();
                         })
                     }else {
                         this.closeDialog();
